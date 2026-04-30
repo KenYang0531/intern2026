@@ -157,10 +157,13 @@
   .opt-letter { font-size:12px; font-weight:900; color:var(--navy); min-width:18px; margin-top:2px; }
   .opt-text { font-size:15px; line-height:1.65; font-weight:400; text-align:left; }
 
+  /* back-btn 與 cont-btn 使用相同 padding，高度完全一致 */
   .nav-row { display:flex; justify-content:space-between; align-items:center; margin-top:32px; padding-top:22px; border-top:1px solid var(--border); }
-  .back-btn { font-size:13px; font-weight:700; background:none; border:1px solid var(--border); color:var(--muted); padding:10px 20px; cursor:pointer; transition:all 0.2s; }
+  .back-btn { font-size:14px; font-weight:700; background:none; border:1.5px solid var(--border); color:var(--muted); padding:12px 28px; cursor:pointer; transition:all 0.2s; line-height:1; }
   .back-btn:hover { border-color:var(--navy); color:var(--navy); }
-  .cont-btn { font-size:14px; font-weight:900; background:var(--navy); color:white; border:none; padding:12px 30px; cursor:pointer; transition:all 0.2s; }
+  /* 第一題時隱藏但保留空間，避免版面跳動 */
+  .back-btn.invisible { visibility:hidden; }
+  .cont-btn { font-size:14px; font-weight:900; background:var(--navy); color:white; border:none; padding:12px 28px; cursor:pointer; transition:all 0.2s; line-height:1; }
   .cont-btn:hover:not(:disabled) { background:var(--blue); }
   .cont-btn:disabled { background:var(--border); color:var(--muted); cursor:not-allowed; }
 
@@ -261,28 +264,24 @@
       <div class="tracks-preview">
         <div class="section-mini-label">四大實習軌道</div>
         <div class="track-mini">
-          <span class="track-mini-icon">🚑</span>
           <div>
             <div class="track-mini-name">救護醫療探索</div>
             <div class="track-mini-desc">隨民間救護車執行二次轉診任務，並參訪 119 派遣中心，親眼看見救護車如何在有限資源下完成車輛調度，了解系統如何真實運轉。</div>
           </div>
         </div>
         <div class="track-mini">
-          <span class="track-mini-icon">🎓</span>
           <div>
             <div class="track-mini-name">救護教育實作</div>
             <div class="track-mini-desc">參加指導員工作坊，習得科學化的教學方法，並實際擔任 CPR 與 AED 課程的教學者，累積三堂以上的真實教課經驗。</div>
           </div>
         </div>
         <div class="track-mini">
-          <span class="track-mini-icon">📹</span>
           <div>
             <div class="track-mini-name">衛教影片開發</div>
             <div class="track-mini-desc">從查找實證文獻開始，逐步完成報告、腳本撰寫、資訊視覺化，直到拍攝剪輯，以小組為單位產出一支完整的 YouTube Shorts 衛教影片。</div>
           </div>
         </div>
         <div class="track-mini">
-          <span class="track-mini-icon">📣</span>
           <div>
             <div class="track-mini-name">倡議專案企劃</div>
             <div class="track-mini-desc">製作社群圖文貼文，分享急救醫療的公共知識；並參與每年 9 月世界急救日的「閃電 CPR 挑戰」，協助將一般民眾引入急救教育系統。</div>
@@ -449,7 +448,8 @@ function renderQ(){
   const q=questions[cur];
   document.getElementById('prog-fill').style.width=(cur/questions.length*100)+'%';
   document.getElementById('prog-count').textContent=`${cur+1} / ${questions.length}`;
-  document.getElementById('back-btn').style.visibility=cur===0?'hidden':'visible';
+  const bb=document.getElementById('back-btn');
+  if(cur===0){ bb.classList.add('invisible'); } else { bb.classList.remove('invisible'); }
   const cb=document.getElementById('cont-btn');
   cb.disabled=answers[cur]===null;
   cb.textContent=cur===questions.length-1?'查看結果 →':'繼續 →';
